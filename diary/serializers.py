@@ -23,7 +23,6 @@ class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         plants = validated_data.pop("plants", [])
         image = validated_data.pop("image", None)
-        raise CustomValidationError(f"{type(plants)} {plants} {len(plants)} {plants[0]} {type(plants[0])}", )
         validated_data["type"] = "농업일지"
         diary = Diary.objects.create(**validated_data)
         if image:
