@@ -10,7 +10,7 @@ from django.conf import settings
 
 class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
     image = serializers.FileField(required=False, allow_null=True)
-    plants = serializers.ListSerializer(
+    plants = serializers.ListField(
         child=serializers.IntegerField(required=False), required=False
     )
     user = serializers.HiddenField(
@@ -29,6 +29,7 @@ class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
         if image:
             file_path, original_name = save_media(image, "diary_plants")
             DairyImage.objects.create(diary=diary, path=file_path)
+
         if plants:
             # processed_str = str(plants).replace("[", "").replace("]", "").replace(" ", "")
             # result_list = [int(x) for x in processed_str.split(',')]
