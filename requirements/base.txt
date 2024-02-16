@@ -1,0 +1,14 @@
+django==3.2
+django-environ
+djangorestframework
+markdown
+django-filter
+pillow
+requests
+pyjwt
+djangorestframework-simplejwt
+boto
+boto3
+cryptography
+pre-commit
+django-cors-headers
