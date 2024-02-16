@@ -31,11 +31,10 @@ class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
             DairyImage.objects.create(diary=diary, path=file_path)
 
         if plants:
-            # processed_str = str(plants).replace("[", "").replace("]", "").replace(" ", "")
-            # result_list = [int(x) for x in processed_str.split(',')]
-            for plant in plants:
-                plant_id = int(plant)
-                diary_plant = DiaryPlant.objects.create(plant_id=plant_id, diary=diary)
+            processed_str = str(plants).replace("[", "").replace("]", "").replace(" ", "")
+            result_list = [int(x) for x in processed_str.split(',')]
+            for plant in result_list:
+                diary_plant = DiaryPlant.objects.create(plant_id=plant, diary=diary)
                 diary_plant.save()
 
         return diary
