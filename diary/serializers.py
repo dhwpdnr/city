@@ -24,6 +24,7 @@ class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         plants = validated_data.pop("plants", [])
         image = validated_data.pop("image", None)
+        print(type(plants))
         validated_data["type"] = "농업일지"
         diary = Diary.objects.create(**validated_data)
         if image:
@@ -31,10 +32,8 @@ class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
             DairyImage.objects.create(diary=diary, path=file_path)
 
         if plants:
-            processed_str = str(plants).replace("[", "").replace("]", "").replace(" ", "")
-            result_list = [int(x) for x in processed_str.split(',')]
-            for plant in result_list:
-                diary_plant = DiaryPlant.objects.create(plant_id=plant, diary=diary)
+            for plant_id in plants:
+                diary_plant = DiaryPlant.objects.create(plant_id=int(plant_id), diary=diary)
                 diary_plant.save()
 
         return diary
