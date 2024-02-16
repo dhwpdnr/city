@@ -30,9 +30,9 @@ class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
             file_path, original_name = save_media(image, "diary_plants")
             DairyImage.objects.create(diary=diary, path=file_path)
         if plants:
-            processed_str = str(plants).replace("[", "").replace("]", "").replace(" ", "")
-            result_list = [int(x) for x in processed_str.split(',')]
-            for plant in result_list:
+            # processed_str = str(plants).replace("[", "").replace("]", "").replace(" ", "")
+            # result_list = [int(x) for x in processed_str.split(',')]
+            for plant in plants:
                 diary_plant = DiaryPlant.objects.create(plant_id=plant, diary=diary)
                 diary_plant.save()
 
