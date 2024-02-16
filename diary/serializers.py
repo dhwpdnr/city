@@ -30,7 +30,7 @@ class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
             DairyImage.objects.create(diary=diary, path=file_path)
 
         if plants:
-            plants_str = plants[0].replace("[", "").replace("]", "").replae(" ", "")
+            plants_str = plants[0].replace("[", "").replace("]", "").replace(" ", "")
             plants_arr = list(plants_str.split(","))
             for plant_id in plants_arr:
                 diary_plant = DiaryPlant.objects.create(plant_id=int(plant_id), diary=diary)
