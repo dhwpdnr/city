@@ -20,6 +20,11 @@ class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
         model = Diary
         fields = ["user", "title", "location", "description", "plants", "image"]
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret.pop('plants', None)
+        return ret
+
     def create(self, validated_data):
         plants = validated_data.pop("plants", [])
         image = validated_data.pop("image", None)
