@@ -24,9 +24,8 @@ class PlanetDiaryCreateAPI(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
         return Response(
-            {"data": "참 잘했어요!"}, status=status.HTTP_201_CREATED, headers=headers
+            {"data": "참 잘했어요!"}, status=status.HTTP_201_CREATED
         )
 
 
