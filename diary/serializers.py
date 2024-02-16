@@ -6,13 +6,12 @@ from like.models import Like
 from comment.models import Comment
 from comment.serializers import CommentListSerializer
 from django.conf import settings
+from utils.exceptions import CustomValidationError
 
 
 class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
     image = serializers.FileField(required=False, allow_null=True)
-    plants = serializers.ListField(
-        required=False
-    )
+    plants = serializers.ListField()
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault(), write_only=True
     )
@@ -24,7 +23,7 @@ class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         plants = validated_data.pop("plants", [])
         image = validated_data.pop("image", None)
-        print(type(plants))
+        raise CustomValidationError(type(plants), plants)
         validated_data["type"] = "농업일지"
         diary = Diary.objects.create(**validated_data)
         if image:
