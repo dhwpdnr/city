@@ -9,27 +9,25 @@ from django.conf import settings
 from utils.exceptions import CustomValidationError
 
 
-class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
+class PlanetDiaryCreateSerializer(serializers.Serializer):
     image = serializers.FileField(required=False, allow_null=True)
     plants = serializers.ListField()
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault(), write_only=True
     )
-
-    class Meta:
-        model = Diary
-        fields = ["user", "title", "location", "description", "plants", "image"]
-
-    def to_representation(self, instance):
-        ret = super().to_representation(instance)
-        ret.pop('plants', None)
-        return ret
+    title = serializers.CharField()
+    location = serializers.CharField()
+    description = serializers.CharField()
 
     def create(self, validated_data):
         plants = validated_data.pop("plants", [])
         image = validated_data.pop("image", None)
-        validated_data["type"] = "농업일지"
-        diary = Diary.objects.create(**validated_data)
+        title = validated_data.pop("title", "")
+        location = validated_data.pop("location", "")
+        description = validated_data.pop("description", "None")
+        user = self.context["request"].user
+        type = "농업일지"
+        diary = Diary.objects.create(title=title, location=location, description=description, user=user, type=type)
         if image:
             file_path, original_name = save_media(image, "diary_plants")
             DairyImage.objects.create(diary=diary, path=file_path)

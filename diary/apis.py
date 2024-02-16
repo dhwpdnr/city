@@ -15,6 +15,11 @@ class PlanetDiaryCreateAPI(generics.CreateAPIView):
     serializer_class = PlanetDiaryCreateSerializer
     permission_classes = (IsAuthenticatedCustom,)
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
