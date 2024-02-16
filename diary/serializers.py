@@ -11,7 +11,7 @@ from django.conf import settings
 class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
     image = serializers.FileField(required=False, allow_null=True)
     plants = serializers.ListField(
-        child=serializers.IntegerField(required=False), required=False
+        required=False
     )
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault(), write_only=True
@@ -34,7 +34,8 @@ class PlanetDiaryCreateSerializer(serializers.ModelSerializer):
             # processed_str = str(plants).replace("[", "").replace("]", "").replace(" ", "")
             # result_list = [int(x) for x in processed_str.split(',')]
             for plant in plants:
-                diary_plant = DiaryPlant.objects.create(plant_id=plant, diary=diary)
+                plant_id = int(plant)
+                diary_plant = DiaryPlant.objects.create(plant_id=plant_id, diary=diary)
                 diary_plant.save()
 
         return diary
