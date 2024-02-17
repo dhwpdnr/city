@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .models import Diary, DiaryPlant, DairyImage
+from .models import Diary
 from .serializers import (
     PlanetDiaryCreateSerializer,
     FarmDiaryCreateSerializer,

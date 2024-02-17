@@ -27,7 +27,15 @@ class PlanetDiaryCreateSerializer(serializers.Serializer):
         description = validated_data.pop("description", "None")
         user = self.context["request"].user
         type = "농업일지"
-        diary = Diary.objects.create(title=title, location=location, description=description, user=user, type=type)
+        payload = {
+            "title": title,
+            "location": location,
+            "description": description,
+            "user": user,
+            "type": type
+
+        }
+        diary = Diary.objects.create(**payload)
         if image:
             file_path, original_name = save_media(image, "diary_plants")
             DairyImage.objects.create(diary=diary, path=file_path)
